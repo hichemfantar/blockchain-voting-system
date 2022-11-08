@@ -56,10 +56,14 @@
           background-color: #82f182;
           border-radius: 5px;
           margin-top: 10px;
+          padding-right: 15px;
         "
       >
         شكرا لتصويتك
       </div>
+      Total voters: {{ tutorials?.length }}
+
+      Male voters: {{ maleVoters }} Female voters: {{ femaleVoters }}
       <div class="inner-adjust px-4">
         <div class="pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">قائمة المرشحين</h1>
@@ -81,7 +85,7 @@
                 src="{{
                   user.photoURL
                     ? user.photoURL
-                    : 'https://randomuser.me/api/portraits/men/10.jpg'
+                    : getUserPic(0, 90, candidate?.gender || 'men')
                 }}"
                 alt="{{ user.displayName }}"
               />

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/shared/services/user';
 
 @Component({
   selector: 'app-vote',
@@ -35,16 +36,65 @@ export class VoteComponent implements OnInit {
     //   voteCount: 0,
     // },
   ];
+  userD: any = {};
+  tutorials?: User[];
+  maleVoters: number = 0;
+  femaleVoters: number = 0;
+  handicappedVoters: number = 0;
 
   constructor(
     public authService: AuthService,
     private http: HttpClient,
     private toastr: ToastrService
-  ) {}
+  ) {
+    // setTimeout(() => {
+    //   console.log(authService.userData);
+    //   this.userD = authService.userData;
+    // }, 1000);
+  }
 
   ngOnInit(): void {
-    this.checkIfAlreadyVoted(10);
     this.getCandidates();
+    this.retrieveTutorials();
+
+    this.checkIfAlreadyVoted(this.userD.accountNumber);
+
+    this.authService.getVotersData().then((res) => console.log(res));
+    // console.log(this.userD);
+
+    // setTimeout(() => {
+    //   // console.log(authService.userData);
+    //   // this.userD = authService.userData;
+    // }, 2000);
+  }
+
+  retrieveTutorials(): void {
+    this.authService
+      .getAllUsers()
+      .snapshotChanges()
+      .pipe(
+        map((changes) =>
+          changes.map((c) => ({
+            id: c.payload.doc.id,
+            ...c.payload.doc.data(),
+          }))
+        )
+      )
+      .subscribe((data) => {
+        this.tutorials = data;
+        let numMales = 0;
+        let numFemales = 0;
+        data.forEach((u) => {
+          if (u?.gender === 'male') {
+            numMales++;
+          }
+          if (u?.gender === 'female') {
+            numFemales++;
+          }
+        });
+        this.maleVoters = numMales;
+        this.femaleVoters = numFemales;
+      });
   }
 
   async checkIfAlreadyVoted(userUID: any) {
@@ -61,11 +111,13 @@ export class VoteComponent implements OnInit {
     return (this.candidates = res);
   }
 
+  // castVote(userUID: any, voteCaster: any) {
   castVote(userUID: any) {
     return this.http
       .post<any>('http://localhost:3001/api/votes', {
         candidateId: userUID,
-        accountNumber: 10,
+        // accountNumber: parseInt(voteCaster) || 10,
+        accountNumber: 15,
       })
       .toPromise()
       .then((res) => {
@@ -82,5 +134,19 @@ export class VoteComponent implements OnInit {
     //   })
     //   .pipe();
     // catchError(this.handleError('addHero', hero))
+  }
+
+  getUserPic(min: any, max: any, gender: any) {
+    return `https://randomuser.me/api/portraits/${gender}/${this.randomIntFromInterval(
+      0,
+      90
+    )}.jpg`;
+
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  randomIntFromInterval(min: any, max: any) {
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }

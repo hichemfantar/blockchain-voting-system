@@ -12,6 +12,7 @@ import { GuestGuard } from './shared/guard/guest.guard';
 import { VoteComponent } from './components/vote/vote.component';
 import { CreateCandidateComponent } from './components/create-candidate/create-candidate.component';
 import { StatsComponent } from './components/stats/stats.component';
+import { StatsHomeComponent } from './components/statshome/statshome.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -50,6 +51,10 @@ const routes: Routes = [
     path: 'stats',
     component: StatsComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'home',
+    component: StatsHomeComponent,
   },
 ];
 

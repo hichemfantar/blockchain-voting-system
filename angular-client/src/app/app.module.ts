@@ -28,6 +28,7 @@ import { CreateCandidateComponent } from './components/create-candidate/create-c
 import { ToastrModule } from 'ngx-toastr';
 import { NgChartsModule } from 'ng2-charts';
 import { StatsComponent } from './components/stats/stats.component';
+import { StatsHomeComponent } from './components/statshome/statshome.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { StatsComponent } from './components/stats/stats.component';
     VoteComponent,
     CreateCandidateComponent,
     StatsComponent,
+    StatsHomeComponent,
   ],
   imports: [
     BrowserModule,

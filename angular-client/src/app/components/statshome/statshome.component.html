@@ -57,9 +57,9 @@
       >
       </canvas> -->
       <div class="inner-adjust px-4">
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">قائمة المرشحين</h1>
-        </div>
+        <h1 style="margin-top: 20px">سيتم تحديث الإحصائيات كل ساعتين</h1>
+
+        <div class="pt-3 pb-2 mb-3 border-bottom"></div>
         <!-- Show user data when logged in -->
         <div
           class="d-flex flex-wrap"
@@ -114,20 +114,48 @@
         </div>
       </div>
       <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">إحصائيات المرشحين</h1>
+        <h1 class="h2">إحصائيات</h1>
       </div>
-      <div style="display: flex; justify-content: center">
-        <canvas
-          baseChart
-          [type]="'pie'"
-          [datasets]="pieChartDatasets"
-          [labels]="pieChartLabels"
-          [options]="pieChartOptions"
-          [plugins]="pieChartPlugins"
-          [legend]="pieChartLegend"
-          [height]="500"
-        >
-        </canvas>
+      <div style="display: flex; gap: 150px">
+        <div style="display: flex; justify-content: center">
+          <canvas
+            baseChart
+            [type]="'pie'"
+            [datasets]="pieChartDatasets"
+            [labels]="pieChartLabels"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend"
+            [height]="500"
+          >
+          </canvas>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <canvas
+            baseChart
+            [type]="'pie'"
+            [datasets]="pieChartGenderDatasets"
+            [labels]="pieChartGenderLabels"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend"
+            [height]="500"
+          >
+          </canvas>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <canvas
+            baseChart
+            [type]="'pie'"
+            [datasets]="pieChartHandicapsDatasets"
+            [labels]="pieChartHandicapsLabels"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend"
+            [height]="500"
+          >
+          </canvas>
+        </div>
       </div>
     </main>
   </div>

@@ -4,6 +4,7 @@ import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
+  AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
@@ -13,6 +14,10 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   userData: any; // Save logged in user data
+  votersData: any; // Save logged in user data
+  private dbPath = '/users';
+
+  tutorialsRef: AngularFirestoreCollection<User>;
 
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
@@ -20,6 +25,8 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
+    this.tutorialsRef = afs.collection(this.dbPath);
+
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
@@ -32,6 +39,10 @@ export class AuthService {
         JSON.parse(localStorage.getItem('user')!);
       }
     });
+  }
+
+  getAllUsers(): AngularFirestoreCollection<User> {
+    return this.tutorialsRef;
   }
 
   // Sign in with email/password
@@ -130,7 +141,16 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
+      // accountNumber: user.accountNumber,
     };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
+
+  getVotersData() {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users`);
+    const userData: User[] = [];
     return userRef.set(userData, {
       merge: true,
     });

@@ -102,6 +102,18 @@ contract Ballot {
         // changes.
         // proposals[proposal].voteCount += sender.weight;
         proposals[proposal].voteCount++;
+
+        // // if (maleGender ) {
+        // proposals[proposal].maleGenderCount =
+        //     maleGender +
+        //     proposals[proposal].maleGenderCount;
+        // // }
+
+        // // if (femaleGender ) {
+        // proposals[proposal].femaleGenderCount =
+        //     femaleGender +
+        //     proposals[proposal].femaleGenderCount;
+        // // }
     }
 
     /// @dev Computes the winning proposal taking all

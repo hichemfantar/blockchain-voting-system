@@ -143,8 +143,13 @@ app.post("/api/candidates", async (request, response) => {
 app.post("/api/votes", async (request, response) => {
 	try {
 		const submittedVote = request.body;
+		console.log(submittedVote);
 		await ballotList.methods
-			.vote(submittedVote.candidateId)
+			.vote(
+				submittedVote.candidateId
+				// submittedVote.maleGender,
+				// submittedVote.femaleGender
+			)
 			.send({ from: accounts[submittedVote.accountNumber] });
 
 		return response.json(submittedVote);

@@ -7,11 +7,11 @@ import { map } from 'rxjs';
 import { User } from 'src/app/shared/services/user';
 
 @Component({
-  selector: 'app-stats',
-  templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.scss'],
+  selector: 'app-statshome',
+  templateUrl: './statshome.component.html',
+  styleUrls: ['./statshome.component.scss'],
 })
-export class StatsComponent implements OnInit {
+export class StatsHomeComponent implements OnInit {
   tutorials?: User[];
   maleVoters: number = 0;
   femaleVoters: number = 0;
@@ -53,10 +53,16 @@ export class StatsComponent implements OnInit {
     },
   ];
 
-  public pieChartGenderLabels = [''];
+  public pieChartGenderLabels = ['Male', 'Female'];
   public pieChartGenderDatasets = [
     {
-      data: [300, 500, 100],
+      data: [14, 5],
+    },
+  ];
+  public pieChartHandicapsLabels = ['Handicapped', 'Not handicapped'];
+  public pieChartHandicapsDatasets = [
+    {
+      data: [40, 25],
     },
   ];
   public pieChartLegend = true;
