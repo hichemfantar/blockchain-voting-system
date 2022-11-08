@@ -39,13 +39,21 @@ export class VoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkIfAlreadyVoted(0);
+    this.getCandidates();
   }
 
-  checkIfAlreadyVoted(userUID: any) {
-    return this.http
+  async checkIfAlreadyVoted(userUID: any) {
+    const res = await this.http
       .get<any>(`http://localhost:3001/api/my-vote/${userUID}`)
-      .toPromise()
-      .then((res) => (this.hasAlreadyVoted = res[0]));
+      .toPromise();
+    return (this.hasAlreadyVoted = res[0]);
+  }
+
+  async getCandidates() {
+    const res = await this.http
+      .get<any>(`http://localhost:3001/api/candidates`)
+      .toPromise();
+    return (this.candidates = res);
   }
 
   castVote(userUID: any) {

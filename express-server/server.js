@@ -48,22 +48,48 @@ connectWeb3();
 // routes(app, accounts, contactList);
 
 app.get("/api/candidates", async (request, response) => {
-	candidates = [
-		{
-			name: "foo",
-			numberOfVotes: 0,
-		},
-		{
-			name: "bar",
-			numberOfVotes: 2,
-		},
-	];
+	// candidates = [
+	// 	{
+	// 		name: "foo",
+	// 		numberOfVotes: 0,
+	// 	},
+	// 	{
+	// 		name: "bar",
+	// 		numberOfVotes: 2,
+	// 	},
+	// ];
 
-	candidates = await ballotList.methods
+	numCandidates = await ballotList.methods
 		.getNumOfCandidates()
 		// .send({ from: accounts[0] });
 		.call();
-	// candidates = await ballotList.methods
+
+	const candidates = [];
+
+	for (let index = 0; index < numCandidates; index++) {
+		// const element = array[index];
+		const candidate = await ballotList.methods
+			.getCandidate(index)
+			// .send({ from: accounts[0] });
+			.call();
+		function hex_to_ascii(str1) {
+			var hex = str1.toString();
+			var str = "";
+			// for (var n = 0; n < hex.length; n += 2) {
+			for (var n = 2; n < 8; n += 2) {
+				str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+			}
+			return str;
+		}
+
+		candidates.push({
+			...candidate,
+			name: hex_to_ascii(candidate["0"]),
+			nameHex: candidate["0"],
+			voteCount: candidate["1"],
+		});
+	}
+	// numCandidates = await ballotList.methods
 	// 	.proposals()
 	// 	// .send({ from: accounts[0] });
 	// 	.call();
