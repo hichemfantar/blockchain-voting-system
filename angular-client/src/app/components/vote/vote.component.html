@@ -1,0 +1,99 @@
+<!-- Top navigation -->
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0">
+    <img
+      class="brand-logo"
+      src="assets/logo-positronx-white.svg"
+      alt="positronX.io Logo"
+    />
+  </a>
+</nav>
+
+<!-- Sidebar navigation -->
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active">
+              <i class="fas fa-user"></i>User Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active">
+              <i class="fas fa-user"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active"> <i class="fas fa-user"></i>Vote </a>
+          </li>
+          <!-- Calling SignOut() Api from AuthService -->
+          <li class="nav-item">
+            <a class="nav-link" (click)="authService.SignOut()">
+              <i class="fas fa-sign-out-alt"></i>Log out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="inner-adjust">
+        <div class="pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">User Profile</h1>
+        </div>
+        <!-- Show user data when logged in -->
+        <div
+          class="d-flex flex-wrap"
+          style="gap: 50px"
+          *ngIf="authService.userData as user"
+        >
+          <div
+            class=""
+            *ngFor="let candidate of candidates"
+            style="width: 400px"
+          >
+            <div class="media">
+              <img
+                class="align-self-start mr-5 img-thumbnail rounded-circle"
+                src="{{
+                  user.photoURL
+                    ? user.photoURL
+                    : 'https://randomuser.me/api/portraits/men/10.jpg'
+                }}"
+                alt="{{ user.displayName }}"
+              />
+              <div class="media-body">
+                <h1>
+                  {{ candidate.name }}
+                </h1>
+                <p>
+                  User ID: <strong>{{ user.uid }}</strong>
+                </p>
+                <p>
+                  Votes: <strong>{{ candidate.voteCount }}</strong>
+                </p>
+                <p>
+                  Email: <strong>{{ user.email }}</strong>
+                </p>
+                <p>
+                  Email Verified: <strong>{{ user.emailVerified }}</strong>
+                </p>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  style="width: 100%"
+                  (click)="castVote(user.uid)"
+                >
+                  Vote
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
