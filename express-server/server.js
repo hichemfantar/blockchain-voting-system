@@ -91,25 +91,24 @@ app.get("/api/winning-vote", async (request, response) => {
 		.winnerName()
 		// .send({ from: accounts[0] });
 		.call();
-	console.log(winnerName);
 	return response.json(winnerName);
 });
 
-app.get("/api/my-vote", async (request, response) => {
+app.get("/api/my-vote/:id", async (request, response) => {
+	const { id: accountNumber } = request.params;
 	const myVote = await ballotList.methods
 		.getMyVote()
 		// .send({ from: accounts[0] });
-		.call();
-	console.log(myVote);
+		.call({ from: accounts[accountNumber] });
+
 	return response.json(myVote);
 });
 
 app.post("/api/votes", async (request, response) => {
 	try {
 		const submittedVote = request.body;
-
 		await ballotList.methods
-			.vote(submittedVote?.candidateId)
+			.vote(0)
 			.send({ from: accounts[submittedVote?.accountNumber] });
 
 		return response.json(submittedVote);
@@ -119,6 +118,7 @@ app.post("/api/votes", async (request, response) => {
 		// 	console.log(`${key}: ${value}`);
 		// }
 		console.log(error);
+		return response.status(500).send("You can't vote right now");
 		return response.status(500).send(error?.data);
 
 		return response.json(error?.data);

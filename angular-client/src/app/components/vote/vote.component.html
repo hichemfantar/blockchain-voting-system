@@ -82,6 +82,15 @@
                   Email Verified: <strong>{{ user.emailVerified }}</strong>
                 </p>
                 <button
+                  *ngIf="hasAlreadyVoted === null"
+                  type="button"
+                  class="btn btn-primary"
+                  style="width: 100%"
+                >
+                  Checking voting status
+                </button>
+                <button
+                  *ngIf="hasAlreadyVoted === false"
                   type="button"
                   class="btn btn-primary"
                   style="width: 100%"

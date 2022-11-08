@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 // service
 import { AuthService } from './shared/services/auth.service';
 import { VoteComponent } from './components/vote/vote.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { VoteComponent } from './components/vote/vote.component';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     AppRoutingModule,
+    HttpClientModule, //imported the module
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
