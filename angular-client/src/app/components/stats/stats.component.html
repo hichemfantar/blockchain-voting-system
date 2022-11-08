@@ -46,6 +46,14 @@
 
     <!-- Main content -->
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <canvas
+        baseChart
+        [data]="barChartData"
+        [options]="barChartOptions"
+        [type]="'bar'"
+      >
+      </canvas>
+
       <div class="inner-adjust">
         <div class="pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">User Profile</h1>

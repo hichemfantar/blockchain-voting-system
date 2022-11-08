@@ -10,6 +10,7 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
 import { AuthGuard } from './shared/guard/auth.guard';
 import { GuestGuard } from './shared/guard/guest.guard';
 import { VoteComponent } from './components/vote/vote.component';
+import { CreateCandidateComponent } from './components/create-candidate/create-candidate.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'vote',
     component: VoteComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'create-candidate',
+    component: CreateCandidateComponent,
     canActivate: [AuthGuard],
   },
 ];

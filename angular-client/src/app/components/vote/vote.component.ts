@@ -3,6 +3,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vote',
@@ -13,32 +14,36 @@ export class VoteComponent implements OnInit {
   hasAlreadyVoted: boolean | null = null;
 
   candidates: any[] = [
-    {
-      name: 'Douglas  Pace',
-      voteCount: 0,
-    },
-    {
-      name: 'Mcleod  Mueller',
-      voteCount: 5,
-    },
-    {
-      name: 'Day  Meyers',
-      voteCount: 0,
-    },
-    {
-      name: 'Aguirre  Ellis',
-      voteCount: 0,
-    },
-    {
-      name: 'Cook  Tyson',
-      voteCount: 0,
-    },
+    // {
+    //   name: 'Douglas  Pace',
+    //   voteCount: 0,
+    // },
+    // {
+    //   name: 'Mcleod  Mueller',
+    //   voteCount: 5,
+    // },
+    // {
+    //   name: 'Day  Meyers',
+    //   voteCount: 0,
+    // },
+    // {
+    //   name: 'Aguirre  Ellis',
+    //   voteCount: 0,
+    // },
+    // {
+    //   name: 'Cook  Tyson',
+    //   voteCount: 0,
+    // },
   ];
 
-  constructor(public authService: AuthService, private http: HttpClient) {}
+  constructor(
+    public authService: AuthService,
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    this.checkIfAlreadyVoted(0);
+    this.checkIfAlreadyVoted(10);
     this.getCandidates();
   }
 
@@ -63,7 +68,12 @@ export class VoteComponent implements OnInit {
         candidateId: userUID,
         accountNumber: 0,
       })
-      .toPromise();
+      .toPromise()
+      .then((res) => {
+        this.toastr.success('', 'عملية التصويت ناجحة');
+
+        this.getCandidates();
+      });
 
     return this.http.get<any>('https://swapi.dev/api/planets/3/').toPromise();
     // return this.http

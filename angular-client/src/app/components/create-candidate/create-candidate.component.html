@@ -48,35 +48,82 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="inner-adjust">
         <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">User Profile</h1>
+          <h1 class="h2">إدارة المرشحين</h1>
         </div>
         <!-- Show user data when logged in -->
-        <div class="row" *ngIf="authService.userData as user">
-          <div class="col-md-12">
+        <div
+          class="d-flex flex-wrap"
+          style="gap: 50px; margin-bottom: 30px"
+          *ngIf="authService.userData as user"
+        >
+          <div
+            class=""
+            *ngFor="let candidate of candidates"
+            style="width: 400px"
+          >
             <div class="media">
               <img
                 class="align-self-start mr-5 img-thumbnail rounded-circle"
                 src="{{
-                  user.photoURL ? user.photoURL : '/assets/dummy-user.png'
+                  user.photoURL
+                    ? user.photoURL
+                    : 'https://randomuser.me/api/portraits/men/10.jpg'
                 }}"
                 alt="{{ user.displayName }}"
               />
               <div class="media-body">
                 <h1>
-                  Hello:
-                  <strong>{{
-                    user.displayName ? user.displayName : "User"
-                  }}</strong>
+                  {{ candidate.name }}
                 </h1>
                 <p>
                   User ID: <strong>{{ user.uid }}</strong>
                 </p>
                 <p>
+                  Votes: <strong>{{ candidate.voteCount }}</strong>
+                </p>
+                <!-- <p>
                   Email: <strong>{{ user.email }}</strong>
-                </p>
-                <p>
+                </p> -->
+                <!-- <p>
                   Email Verified: <strong>{{ user.emailVerified }}</strong>
-                </p>
+                </p> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="" style="width: 400px">
+            <div class="media">
+              <div class="authBlock" style="margin: 0px">
+                <h3>أضف مرشحًا</h3>
+                <div class="formGroup">
+                  <input
+                    type="text"
+                    class="formControl"
+                    placeholder="اسم المرشح"
+                    #candidateName
+                    required
+                  />
+                </div>
+
+                <!-- <div class="formGroup">
+                  <input
+                    type="password"
+                    class="formControl"
+                    placeholder="Password"
+                    #userPassword
+                    required
+                  />
+                </div> -->
+
+                <!-- Calling SignIn Api from AuthService -->
+                <div class="formGroup">
+                  <input
+                    type="button"
+                    class="btn btnPrimary"
+                    value="إرسال"
+                    (click)="createCandidate(candidateName.value)"
+                  />
+                </div>
               </div>
             </div>
           </div>

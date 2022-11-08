@@ -8,6 +8,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // components
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -23,6 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './shared/services/auth.service';
 import { VoteComponent } from './components/vote/vote.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateCandidateComponent } from './components/create-candidate/create-candidate.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     VoteComponent,
+    CreateCandidateComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,8 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireDatabaseModule,
     AppRoutingModule,
     HttpClientModule, //imported the module
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
