@@ -62,16 +62,15 @@ export class VoteComponent implements OnInit {
   }
 
   castVote(userUID: any) {
-    console.log(userUID);
     return this.http
       .post<any>('http://localhost:3001/api/votes', {
         candidateId: userUID,
-        accountNumber: 0,
+        accountNumber: 10,
       })
       .toPromise()
       .then((res) => {
         this.toastr.success('', 'عملية التصويت ناجحة');
-
+        this.hasAlreadyVoted = true;
         this.getCandidates();
       });
 

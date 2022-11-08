@@ -3,6 +3,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-candidate',
@@ -35,7 +36,11 @@ export class CreateCandidateComponent implements OnInit {
     // },
   ];
 
-  constructor(public authService: AuthService, private http: HttpClient) {}
+  constructor(
+    public authService: AuthService,
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getCandidates();
@@ -54,6 +59,8 @@ export class CreateCandidateComponent implements OnInit {
         name,
       })
       .toPromise();
+    this.toastr.success('', 'تمت إضافة المرشح بنجاح');
+
     this.getCandidates();
   }
 }

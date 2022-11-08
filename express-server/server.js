@@ -72,10 +72,10 @@ app.get("/api/candidates", async (request, response) => {
 
 	for (let index = 0; index < numCandidates; index++) {
 		const candidate = await ballotList.methods.getCandidate(index).call();
-
 		candidates.push({
 			...candidate,
 			name: hex_to_ascii(candidate["0"]),
+			// name: candidate["0"],
 			nameHex: candidate["0"],
 			voteCount: candidate["1"],
 		});

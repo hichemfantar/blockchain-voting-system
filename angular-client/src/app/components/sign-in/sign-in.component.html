@@ -1,7 +1,15 @@
 <div class="displayTable">
   <div class="displayTableCell">
     <div class="authBlock">
-      <h3>Sign In</h3>
+      <div style="width: 100%; text-align: center">
+        <img
+          style="height: 100px; object-fit: contain; margin-bottom: 40px"
+          class="brand-logo"
+          src="http://www.isie.tn/wp-content/uploads/2014/09/logo.png"
+          alt="positronX.io Logo"
+        />
+      </div>
+      <h3>تسجيل الدخول</h3>
       <div class="formGroup">
         <input
           type="text"
@@ -27,7 +35,7 @@
         <input
           type="button"
           class="btn btnPrimary"
-          value="Log in"
+          value="تسجيل الدخول"
           (click)="authService.SignIn(userName.value, userPassword.value)"
         />
       </div>
@@ -48,12 +56,12 @@
         </button>
       </div>
 
-      <div class="forgotPassword">
+      <!-- <div class="forgotPassword">
         <span routerLink="/forgot-password">Forgot Password?</span>
-      </div>
+      </div> -->
     </div>
 
-    <div class="redirectToLogin">
+    <!-- <div class="redirectToLogin">
       <span
         >Don't have an account?<span
           class="redirect"
@@ -62,6 +70,6 @@
           Sign Up</span
         ></span
       >
-    </div>
+    </div> -->
   </div>
 </div>

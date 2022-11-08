@@ -2,7 +2,12 @@
 <nav class="navbar navbar-dark fixed-topp bg-dark flex-md-nowrap p-0 shadow">
   <a
     class="navbar-brand col-smm-3 col-mdd-2 mrr-0 pl-2"
-    style="background-color: white; border-radius: 10px; padding-left: 15px"
+    style="
+      background-color: white;
+      border-radius: 10px;
+      padding-left: 0px;
+      text-align: center;
+    "
   >
     <img
       class="brand-logo"
@@ -27,9 +32,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/dashboard']">
-              إحصائيات
-            </a>
+            <a class="nav-link active" [routerLink]="['/stats']"> إحصائيات </a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" [routerLink]="['/vote']"> تصويت </a>
@@ -69,10 +72,10 @@
         >
           <div
             class=""
-            *ngFor="let candidate of candidates"
+            *ngFor="let candidate of candidates; let i = index"
             style="width: 400px"
           >
-            <div class="media">
+            <div class="media" style="text-align: center">
               <img
                 class="align-self-start mr-5 img-thumbnail rounded-circle"
                 src="{{
@@ -90,7 +93,7 @@
                   User ID: <strong>{{ user.uid }}</strong>
                 </p>
                 <p>
-                  Votes: <strong>{{ candidate.voteCount }}</strong>
+                  عدد الأصوات: <strong>{{ candidate.voteCount }}</strong>
                 </p>
                 <!-- <p>
                   Email: <strong>{{ user.email }}</strong>
@@ -104,16 +107,16 @@
                   class="btn btn-primary"
                   style="width: 100%"
                 >
-                  Checking voting status
+                  التحقق من حالة التصويت
                 </button>
                 <button
                   *ngIf="hasAlreadyVoted === false"
                   type="button"
                   class="btn btn-primary"
                   style="width: 100%"
-                  (click)="castVote(user.uid)"
+                  (click)="castVote(i)"
                 >
-                  Vote
+                  صوت الان
                 </button>
               </div>
             </div>

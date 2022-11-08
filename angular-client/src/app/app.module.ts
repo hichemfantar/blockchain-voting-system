@@ -26,6 +26,8 @@ import { VoteComponent } from './components/vote/vote.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateCandidateComponent } from './components/create-candidate/create-candidate.component';
 import { ToastrModule } from 'ngx-toastr';
+import { NgChartsModule } from 'ng2-charts';
+import { StatsComponent } from './components/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { ToastrModule } from 'ngx-toastr';
     VerifyEmailComponent,
     VoteComponent,
     CreateCandidateComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule, //imported the module
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    NgChartsModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
