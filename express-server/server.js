@@ -38,6 +38,13 @@ async function connectWeb3() {
 	// 	CONTACT_ADDRESS.CONTACT_ADDRESS
 	// );
 
+	// 	var contract1 = new eth.Contract(abi, address, {gasPrice: '12345678', from: fromAddress});
+
+	// 	myContract.deploy({
+	//     data: '0x12345...',
+	//     arguments: [123, 'My String']
+	// })
+
 	ballotList = new web3.eth.Contract(
 		BALLOT_ABI.BALLOT_ABI,
 		BALLOT_ADDRESS.BALLOT_ADDRESS
@@ -59,28 +66,12 @@ app.get("/api/candidates", async (request, response) => {
 	// 	},
 	// ];
 
-	numCandidates = await ballotList.methods
-		.getNumOfCandidates()
-		// .send({ from: accounts[0] });
-		.call();
+	numCandidates = await ballotList.methods.getNumOfCandidates().call();
 
 	const candidates = [];
 
 	for (let index = 0; index < numCandidates; index++) {
-		// const element = array[index];
-		const candidate = await ballotList.methods
-			.getCandidate(index)
-			// .send({ from: accounts[0] });
-			.call();
-		function hex_to_ascii(str1) {
-			var hex = str1.toString();
-			var str = "";
-			// for (var n = 0; n < hex.length; n += 2) {
-			for (var n = 2; n < 8; n += 2) {
-				str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
-			}
-			return str;
-		}
+		const candidate = await ballotList.methods.getCandidate(index).call();
 
 		candidates.push({
 			...candidate,
@@ -89,10 +80,6 @@ app.get("/api/candidates", async (request, response) => {
 			voteCount: candidate["1"],
 		});
 	}
-	// numCandidates = await ballotList.methods
-	// 	.proposals()
-	// 	// .send({ from: accounts[0] });
-	// 	.call();
 
 	return response.json(candidates);
 });
@@ -130,12 +117,35 @@ app.get("/api/my-vote/:id", async (request, response) => {
 	return response.json(myVote);
 });
 
+app.post("/api/candidates", async (request, response) => {
+	try {
+		const candidate = request.body;
+		const res = await ballotList.methods
+			.addCandidate("0x" + ascii_to_hexa(candidate?.name))
+			.send({ from: accounts[0] });
+		// .send({ from: accounts[candidate?.accountNumber] });
+
+		return response.json(res);
+	} catch (error) {
+		// console.log(error?.data?.reason);
+		// for (const [key, value] of Object.entries(error)) {
+		// 	console.log(`${key}: ${value}`);
+		// }
+		console.log(error);
+		return response.status(500).send("You can't add candidates right now");
+		return response.status(500).send(error?.data);
+
+		return response.json(error?.data);
+
+		return response.status(500).send("Something broke!");
+	}
+});
 app.post("/api/votes", async (request, response) => {
 	try {
 		const submittedVote = request.body;
 		await ballotList.methods
-			.vote(0)
-			.send({ from: accounts[submittedVote?.accountNumber] });
+			.vote(submittedVote.candidateId)
+			.send({ from: accounts[submittedVote.accountNumber] });
 
 		return response.json(submittedVote);
 	} catch (error) {
@@ -187,3 +197,24 @@ app.listen(process.env.PORT || 3001, () => {
 // 		});
 // 	}
 // );
+
+function ascii_to_hexa(str) {
+	var arr1 = [];
+	for (var n = 0, l = str.length; n < l; n++) {
+		var hex = Number(str.charCodeAt(n)).toString(16);
+		arr1.push(hex);
+	}
+	return arr1.join("");
+}
+
+function hex_to_ascii(str1) {
+	var hex = str1.toString();
+	var str = "";
+	// for (var n = 0; n < hex.length; n += 2) {
+	hex = hex.slice(2);
+	leng = hex.indexOf(0);
+	for (var n = 0; n < leng; n += 2) {
+		str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+	}
+	return str;
+}

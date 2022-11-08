@@ -48,6 +48,14 @@ contract Ballot {
         }
     }
 
+    function addCandidate(bytes32 n) public returns (uint256 arrayLength) {
+        Proposal memory m;
+        m.name = n;
+        m.voteCount = 0;
+        proposals.push(m);
+        return proposals.length;
+    }
+
     function getMyVote() public view returns (Voter memory) {
         return voters[msg.sender];
     }

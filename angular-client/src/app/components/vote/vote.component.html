@@ -1,9 +1,12 @@
 <!-- Top navigation -->
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0">
+<nav class="navbar navbar-dark fixed-topp bg-dark flex-md-nowrap p-0 shadow">
+  <a
+    class="navbar-brand col-smm-3 col-mdd-2 mrr-0 pl-2"
+    style="background-color: white; border-radius: 10px; padding-left: 15px"
+  >
     <img
       class="brand-logo"
-      src="assets/logo-positronx-white.svg"
+      src="http://www.isie.tn/wp-content/uploads/2014/09/logo.png"
       alt="positronX.io Logo"
     />
   </a>
@@ -12,21 +15,23 @@
 <!-- Sidebar navigation -->
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
+    <nav class="col-md-2 d-md-block bg-light sidebar" style="padding-top: 0px">
+      <div class="sidebar-sticky" style="padding-top: 0px !important">
+        <ul class="nav flex-column" style="padding-right: 0px">
           <li class="nav-item">
             <a class="nav-link active">
               <i class="fas fa-user"></i>User Profile
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active">
+            <a class="nav-link active" [routerLink]="['/dashboard']">
               <i class="fas fa-user"></i>Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active"> <i class="fas fa-user"></i>Vote </a>
+            <a class="nav-link active" [routerLink]="['/vote']">
+              <i class="fas fa-user"></i>Vote
+            </a>
           </li>
           <!-- Calling SignOut() Api from AuthService -->
           <li class="nav-item">

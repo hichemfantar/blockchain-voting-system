@@ -1,4 +1,4 @@
-const BALLOT_ADDRESS = "0x829199c236D5E2eBF13953338C0835618DaCa04B";
+const BALLOT_ADDRESS = "0xe4a0d4Ad48BF8E6dB4151107f51deaDBa76D27c5";
 
 const BALLOT_ABI = [
 	{
@@ -55,6 +55,25 @@ const BALLOT_ABI = [
 		stateMutability: "view",
 		type: "function",
 		constant: true,
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "n",
+				type: "bytes32",
+			},
+		],
+		name: "addCandidate",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "arrayLength",
+				type: "uint256",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
 	},
 	{
 		inputs: [],
