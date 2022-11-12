@@ -1,90 +1,90 @@
 <!-- Top navigation -->
 <nav class="navbar navbar-dark fixed-topp bg-dark flex-md-nowrap p-0 shadow">
-  <a
-    class="navbar-brand col-smm-3 col-mdd-2 mrr-0 pl-2"
-    style="
-      background-color: white;
-      border-radius: 10px;
-      padding-left: 0px;
-      text-align: center;
-    "
-  >
-    <img
-      class="brand-logo"
-      src="http://www.isie.tn/wp-content/uploads/2014/09/logo.png"
-      alt="positronX.io Logo"
-    />
-  </a>
+	<a
+		class="navbar-brand col-smm-3 col-mdd-2 mrr-0 pl-2"
+		style="
+			background-color: white;
+			border-radius: 10px;
+			padding-left: 0px;
+			text-align: center;
+		"
+	>
+		<img
+			class="brand-logo"
+			src="http://www.isie.tn/wp-content/uploads/2014/09/logo.png"
+			alt="positronX.io Logo"
+		/>
+	</a>
 </nav>
 
 <!-- Sidebar navigation -->
 <div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar" style="padding-top: 0px">
-      <div class="sidebar-sticky" style="padding-top: 0px !important">
-        <ul class="nav flex-column" style="padding-right: 0px">
-          <li class="nav-item">
-            <a class="nav-link active"> User Profile </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/create-candidate']">
-              إدارة المرشحين
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/stats']"> إحصائيات </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/vote']"> تصويت </a>
-          </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>تسجيل خروج
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+	<div class="row">
+		<nav class="col-md-2 d-md-block bg-light sidebar" style="padding-top: 0px">
+			<div class="sidebar-sticky" style="padding-top: 0px !important">
+				<ul class="nav flex-column" style="padding-right: 0px">
+					<li class="nav-item">
+						<a class="nav-link active"> User Profile </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" [routerLink]="['/create-candidate']">
+							إدارة المرشحين
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" [routerLink]="['/stats']"> إحصائيات </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" [routerLink]="['/vote']"> تصويت </a>
+					</li>
+					<!-- Calling SignOut() Api from AuthService -->
+					<li class="nav-item">
+						<a class="nav-link" (click)="authService.SignOut()">
+							<i class="fas fa-sign-out-alt"></i>تسجيل خروج
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="inner-adjust">
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">User Profile</h1>
-        </div>
-        <!-- Show user data when logged in -->
-        <div class="row" *ngIf="authService.userData as user">
-          <div class="col-md-12">
-            <div class="media" style="text-align: center">
-              <img
-                class="align-self-start mr-5 img-thumbnail rounded-circle"
-                src="{{
-                  user.photoURL ? user.photoURL : '/assets/dummy-user.png'
-                }}"
-                alt="{{ user.displayName }}"
-              />
-              <div class="media-body">
-                <h1>
-                  Hello:
-                  <strong>{{
-                    user.displayName ? user.displayName : "User"
-                  }}</strong>
-                </h1>
-                <p>
-                  User ID: <strong>{{ user.uid }}</strong>
-                </p>
-                <p>
-                  Email: <strong>{{ user.email }}</strong>
-                </p>
-                <p>
-                  Email Verified: <strong>{{ user.emailVerified }}</strong>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+		<!-- Main content -->
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div class="inner-adjust">
+				<div class="pt-3 pb-2 mb-3 border-bottom">
+					<h1 class="h2">User Profile</h1>
+				</div>
+				<!-- Show user data when logged in -->
+				<div class="row" *ngIf="authService.userData as user">
+					<div class="col-md-12">
+						<div class="media" style="text-align: center">
+							<img
+								class="align-self-start mr-5 img-thumbnail rounded-circle"
+								src="{{
+									user.photoURL ? user.photoURL : '/assets/dummy-user.png'
+								}}"
+								alt="{{ user.displayName }}"
+							/>
+							<div class="media-body">
+								<h1>
+									Hello:
+									<strong>{{
+										user.displayName ? user.displayName : "User"
+									}}</strong>
+								</h1>
+								<p>
+									User ID: <strong>{{ user.uid }}</strong>
+								</p>
+								<p>
+									Email: <strong>{{ user.email }}</strong>
+								</p>
+								<p>
+									Email Verified: <strong>{{ user.emailVerified }}</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
 </div>

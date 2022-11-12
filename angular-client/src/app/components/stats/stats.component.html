@@ -1,134 +1,91 @@
-<!-- Top navigation -->
-<nav class="navbar navbar-dark fixed-topp bg-dark flex-md-nowrap p-0 shadow">
-  <a
-    class="navbar-brand col-smm-3 col-mdd-2 mrr-0 pl-2"
-    style="
-      background-color: white;
-      border-radius: 10px;
-      padding-left: 0px;
-      text-align: center;
-    "
-  >
-    <img
-      class="brand-logo"
-      src="http://www.isie.tn/wp-content/uploads/2014/09/logo.png"
-      alt="positronX.io Logo"
-    />
-  </a>
-</nav>
+<app-top-navbar></app-top-navbar>
 
-<!-- Sidebar navigation -->
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar" style="padding-top: 0px">
-      <div class="sidebar-sticky" style="padding-top: 0px !important">
-        <ul class="nav flex-column" style="padding-right: 0px">
-          <li class="nav-item">
-            <a class="nav-link active"> User Profile </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/create-candidate']">
-              إدارة المرشحين
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/stats']"> إحصائيات </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/vote']"> تصويت </a>
-          </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>تسجيل خروج
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+<div class="lg:grid grid-cols-12 gap-2 p-4">
+	<div class="col-span-2 h-full">
+		<app-side-navbar></app-side-navbar>
+	</div>
 
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <!-- <canvas
+	<main class="col-span-10">
+		<!-- <canvas
         baseChart
         [data]="barChartData"
         [options]="barChartOptions"
         [type]="'bar'"
       >
       </canvas> -->
-      <div class="inner-adjust px-4">
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">قائمة المرشحين</h1>
-        </div>
-        <!-- Show user data when logged in -->
-        <div
-          class="d-flex flex-wrap"
-          style="gap: 50px; margin-bottom: 30px"
-          *ngIf="authService.userData as user"
-        >
-          <div class="" style="width: 400px">
-            <div class="media" style="text-align: center">
-              <div class="media-body">
-                <h1>الناخبون الذكور</h1>
+		<div class="px-4">
+			<div
+				class="text-4xl pt-3 pb-6 mb-6 border-b text-gray-900 dark:text-white"
+			>
+				<h1>إحصائيات</h1>
+			</div>
+			<!-- Show user data when logged in -->
+			<div class="flex flex-wrap" *ngIf="authService.userData as user">
+				<div class="" style="width: 400px">
+					<div class="media" style="text-align: center">
+						<div class="media-body">
+							<h1>الناخبون الذكور</h1>
 
-                <strong style="font-size: 50px">{{ maleVoters }}</strong>
-                <!-- <p>
+							<strong style="font-size: 50px">{{ maleVoters }}</strong>
+							<!-- <p>
                   Email: <strong>{{ user.email }}</strong>
                 </p> -->
-                <!-- <p>
+							<!-- <p>
                   Email Verified: <strong>{{ user.emailVerified }}</strong>
                 </p> -->
-              </div>
-            </div>
-          </div>
-          <div class="" style="width: 400px">
-            <div class="media" style="text-align: center">
-              <div class="media-body">
-                <h1>الناخبات</h1>
+						</div>
+					</div>
+				</div>
+				<div class="" style="width: 400px">
+					<div class="media" style="text-align: center">
+						<div class="media-body">
+							<h1>الناخبات</h1>
 
-                <strong style="font-size: 50px">{{ femaleVoters }}</strong>
-                <!-- <p>
+							<strong style="font-size: 50px">{{ femaleVoters }}</strong>
+							<!-- <p>
                   Email: <strong>{{ user.email }}</strong>
                 </p> -->
-                <!-- <p>
+							<!-- <p>
                   Email Verified: <strong>{{ user.emailVerified }}</strong>
                 </p> -->
-              </div>
-            </div>
-          </div>
-          <div class="" style="width: 400px">
-            <div class="media" style="text-align: center">
-              <div class="media-body">
-                <h1>ناخبون مع إعاقة</h1>
+						</div>
+					</div>
+				</div>
+				<div class="" style="width: 400px">
+					<div class="media" style="text-align: center">
+						<div class="media-body">
+							<h1>ناخبون مع إعاقة</h1>
 
-                <strong style="font-size: 50px">{{ tutorials?.length }}</strong>
-                <!-- <p>
+							<strong style="font-size: 50px">{{ users?.length }}</strong>
+							<!-- <p>
                   Email: <strong>{{ user.email }}</strong>
                 </p> -->
-                <!-- <p>
+							<!-- <p>
                   Email Verified: <strong>{{ user.emailVerified }}</strong>
                 </p> -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">إحصائيات المرشحين</h1>
-      </div>
-      <div style="display: flex; justify-content: center">
-        <canvas
-          baseChart
-          [type]="'pie'"
-          [datasets]="pieChartDatasets"
-          [labels]="pieChartLabels"
-          [options]="pieChartOptions"
-          [plugins]="pieChartPlugins"
-          [legend]="pieChartLegend"
-          [height]="500"
-        >
-        </canvas>
-      </div>
-    </main>
-  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<div class="pt-3 pb-2 mb-3 border-bottom">
+				<h1 class="h2">إحصائيات المرشحين</h1>
+			</div>
+			<div style="display: flex; justify-content: center">
+				<canvas
+					baseChart
+					[type]="'pie'"
+					[datasets]="pieChartDatasets"
+					[labels]="pieChartLabels"
+					[options]="pieChartOptions"
+					[plugins]="pieChartPlugins"
+					[legend]="pieChartLegend"
+					[height]="500"
+				>
+				</canvas>
+			</div>
+		</div>
+	</main>
 </div>

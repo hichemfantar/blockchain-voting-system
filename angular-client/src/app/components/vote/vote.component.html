@@ -1,132 +1,79 @@
-<!-- Top navigation -->
-<nav class="navbar navbar-dark fixed-topp bg-dark flex-md-nowrap p-0 shadow">
-  <a
-    class="navbar-brand col-smm-3 col-mdd-2 mrr-0 pl-2"
-    style="
-      background-color: white;
-      border-radius: 10px;
-      padding-left: 0px;
-      text-align: center;
-    "
-  >
-    <img
-      class="brand-logo"
-      src="http://www.isie.tn/wp-content/uploads/2014/09/logo.png"
-      alt="positronX.io Logo"
-    />
-  </a>
-</nav>
+<app-top-navbar></app-top-navbar>
 
-<!-- Sidebar navigation -->
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar" style="padding-top: 0px">
-      <div class="sidebar-sticky" style="padding-top: 0px !important">
-        <ul class="nav flex-column" style="padding-right: 0px">
-          <li class="nav-item">
-            <a class="nav-link active"> User Profile </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/create-candidate']">
-              إدارة المرشحين
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/stats']"> إحصائيات </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/vote']"> تصويت </a>
-          </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>تسجيل خروج
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+<div class="lg:grid grid-cols-12 gap-2 p-4">
+	<div class="col-span-2 h-full">
+		<app-side-navbar></app-side-navbar>
+	</div>
 
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10">
-      <div
-        *ngIf="hasAlreadyVoted"
-        style="
-          font-size: 50px;
-          background-color: #82f182;
-          border-radius: 5px;
-          margin-top: 10px;
-          padding-right: 15px;
-        "
-      >
-        شكرا لتصويتك
-      </div>
-      Total voters: {{ tutorials?.length }}
+	<main class="col-span-10">
+		<div
+			*ngIf="hasAlreadyVoted"
+			class="p-4 mb-4 text-xl text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+		>
+			<span class="font-medium"> شكرا لتصويتك!</span> يمكنك الذهاب إلى صفحة
+			الإحصائيات والاطلاع على آخر الأخبار.
+		</div>
 
-      Male voters: {{ maleVoters }} Female voters: {{ femaleVoters }}
-      <div class="inner-adjust px-4">
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">قائمة المرشحين</h1>
-        </div>
-        <!-- Show user data when logged in -->
-        <div
-          class="d-flex flex-wrap"
-          style="gap: 50px; margin-bottom: 30px"
-          *ngIf="authService.userData as user"
-        >
-          <div
-            class=""
-            *ngFor="let candidate of candidates; let i = index"
-            style="width: 400px"
-          >
-            <div class="media" style="text-align: center">
-              <img
-                class="align-self-start mr-5 img-thumbnail rounded-circle"
-                src="{{
-                  user.photoURL
-                    ? user.photoURL
-                    : getUserPic(0, 90, candidate?.gender || 'men')
-                }}"
-                alt="{{ user.displayName }}"
-              />
-              <div class="media-body">
-                <h1>
-                  {{ candidate.name }}
-                </h1>
-                <p>
-                  User ID: <strong>{{ user.uid }}</strong>
-                </p>
-                <p>
-                  عدد الأصوات: <strong>{{ candidate.voteCount }}</strong>
-                </p>
-                <!-- <p>
-                  Email: <strong>{{ user.email }}</strong>
-                </p> -->
-                <!-- <p>
-                  Email Verified: <strong>{{ user.emailVerified }}</strong>
-                </p> -->
-                <button
-                  *ngIf="hasAlreadyVoted === null"
-                  type="button"
-                  class="btn btn-primary"
-                  style="width: 100%"
-                >
-                  التحقق من حالة التصويت
-                </button>
-                <button
-                  *ngIf="hasAlreadyVoted === false"
-                  type="button"
-                  class="btn btn-primary"
-                  style="width: 100%"
-                  (click)="castVote(i)"
-                >
-                  صوت الان
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+		<!-- Total voters: {{ tutorials?.length }}
+
+    Male voters: {{ maleVoters }} Female voters: {{ femaleVoters }} -->
+		<div class="">
+			<div
+				class="text-4xl pt-3 pb-6 mb-6 border-b text-gray-900 dark:text-white"
+			>
+				<h1>قائمة المرشحين</h1>
+			</div>
+			<!-- Show user data when logged in -->
+			<div class="flex flex-wrap gap-6" *ngIf="authService.userData as user">
+				<div
+					class="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+					*ngFor="let candidate of candidates; let i = index"
+				>
+					<div class="flex flex-col items-center p-10">
+						<img
+							class="mb-3 w-24 h-24 rounded-full shadow-lg"
+							src="{{
+								user.photoURL
+									? user.photoURL
+									: 'https://randomuser.me/api/portraits/men/10.jpg'
+							}}"
+							alt="{{ candidate.displayName }}"
+							alt="Bonnie image"
+						/>
+						<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+							{{ candidate.name }}
+						</h5>
+						<!-- <span class="text-sm text-gray-500 dark:text-gray-400"
+              >عدد الأصوات</span
+            > -->
+						<div
+							class="flex mt-4 space-x-3 md:mt-6 justify-center items-center gap-4"
+						>
+							<!-- <a
+                  href="#"
+                  class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >{{ candidate.voteCount }}</a
+                > -->
+							<h5 class="text-xl font-medium text-gray-900 dark:text-white">
+								عدد الأصوات
+							</h5>
+							<button
+								class="text-xl inline-flex items-center py-2 px-4 font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
+							>
+								{{ candidate.voteCount }}
+							</button>
+						</div>
+						<button
+							*ngIf="hasAlreadyVoted === false"
+							class="w-full mt-4 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+							(click)="castVote(i)"
+							type="button"
+						>
+							صوت الان
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 </div>
