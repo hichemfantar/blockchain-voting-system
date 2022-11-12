@@ -168,11 +168,79 @@ app.post("/api/votes", async (request, response) => {
 	}
 });
 
+app.get("/api/election/status", async (request, response) => {
+	try {
+		const res = await ballotList.methods.getElectionStatus().call();
+
+		return response.json(res);
+	} catch (error) {
+		console.log(error);
+		return response.status(500).send("You can't vote right now");
+		return response.status(500).send(error?.data);
+
+		return response.json(error?.data);
+
+		return response.status(500).send("Something broke!");
+	}
+});
+app.post("/api/election/end", async (request, response) => {
+	try {
+		await ballotList.methods.endElection().send({ from: accounts[0] });
+
+		return response.json(true);
+	} catch (error) {
+		console.log(error);
+		return response.status(500).send("You can't vote right now");
+		return response.status(500).send(error?.data);
+
+		return response.json(error?.data);
+
+		return response.status(500).send("Something broke!");
+	}
+});
+
+app.post("/api/election/activate", async (request, response) => {
+	try {
+		await ballotList.methods.activateElection().send({ from: accounts[0] });
+
+		return response.json(true);
+	} catch (error) {
+		console.log(error);
+		return response.status(500).send("You can't vote right now");
+		return response.status(500).send(error?.data);
+
+		return response.json(error?.data);
+
+		return response.status(500).send("Something broke!");
+	}
+});
+
 app.get("/api/voters", async (request, response) => {
 	try {
 		const voters = await ballotList.methods.voters().call();
 
 		return response.json(voters);
+	} catch (error) {
+		console.log(error);
+		return response.status(500).send(error?.data);
+	}
+});
+
+app.get("/api/election/dates", async (request, response) => {
+	try {
+		const dates = {};
+
+		const electionStartDate = await ballotList.methods
+			.getElectionStartDate()
+			.call();
+		const electionEndDate = await ballotList.methods
+			.getElectionEndDate()
+			.call();
+
+		dates.electionStartDate = electionStartDate;
+		dates.electionEndDate = electionEndDate;
+
+		return response.json(dates);
 	} catch (error) {
 		console.log(error);
 		return response.status(500).send(error?.data);
@@ -215,11 +283,14 @@ function ascii_to_hexa(str) {
 function hex_to_ascii(str1) {
 	var hex = str1.toString();
 	var str = "";
-	// for (var n = 0; n < hex.length; n += 2) {
 	hex = hex.slice(2);
-	leng = hex.indexOf(0);
+	leng = hex.indexOf("00");
+	// for (var n = 0; n < hex.length; n += 2) {
 	for (var n = 0; n < leng; n += 2) {
 		str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+
+		// arabic 3 chars
+		// str += String.fromCharCode(parseInt(hex.substr(n, 3), 16));
 	}
 	return str;
 }

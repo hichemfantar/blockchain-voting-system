@@ -1,4 +1,4 @@
-const BALLOT_ADDRESS = "0x2c30fF7a78eA23673c6Edf2561764c57aC8780B1";
+const BALLOT_ADDRESS = "0x9c7D6d7f0B18922eC668c85839811D928061c8C4";
 
 const BALLOT_ABI = [
 	{
@@ -49,6 +49,62 @@ const BALLOT_ABI = [
 			{
 				internalType: "uint256",
 				name: "vote",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+		constant: true,
+	},
+	{
+		inputs: [],
+		name: "endElection",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "activateElection",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "getElectionStatus",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+		constant: true,
+	},
+	{
+		inputs: [],
+		name: "getElectionStartDate",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+		constant: true,
+	},
+	{
+		inputs: [],
+		name: "getElectionEndDate",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
 				type: "uint256",
 			},
 		],

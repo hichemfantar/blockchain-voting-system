@@ -15,7 +15,11 @@ export class StatsComponent implements OnInit {
 	users?: User[];
 	maleVoters: number = 0;
 	femaleVoters: number = 0;
+	//@ts-ignore
+	electionDates: any = {};
 	handicappedVoters: number = 0;
+
+	isElectionEnded = false;
 
 	candidates: any[] = [
 		// {
@@ -65,6 +69,8 @@ export class StatsComponent implements OnInit {
 	ngOnInit(): void {
 		this.getCandidates();
 		this.retrieveUsers();
+		this.getElectionStatus();
+		this.getElectionDates();
 	}
 
 	retrieveUsers(): void {
@@ -83,6 +89,7 @@ export class StatsComponent implements OnInit {
 				this.users = data;
 				let numMales = 0;
 				let numFemales = 0;
+				let handicaps = 0;
 				data.forEach((u) => {
 					if (u?.gender === "male") {
 						numMales++;
@@ -90,9 +97,15 @@ export class StatsComponent implements OnInit {
 					if (u?.gender === "female") {
 						numFemales++;
 					}
+					if (u?.handicapped) {
+						handicaps++;
+					}
 				});
 				this.maleVoters = numMales;
 				this.femaleVoters = numFemales;
+				console.log(handicaps);
+
+				this.handicappedVoters = handicaps;
 			});
 	}
 
@@ -103,5 +116,32 @@ export class StatsComponent implements OnInit {
 		this.candidates = res;
 		this.pieChartLabels = this.candidates.map((c) => c?.name);
 		this.pieChartDatasets[0].data = this.candidates.map((c) => c?.voteCount);
+	}
+
+	async getElectionStatus() {
+		const res = await this.http
+			.get<any>(`http://localhost:3001/api/election/status`)
+			.toPromise();
+		if (!res) {
+			this.isElectionEnded = true;
+		}
+	}
+
+	async getElectionDates() {
+		const res = await this.http
+			.get<any>(`http://localhost:3001/api/election/dates`)
+			.toPromise();
+		if (res) {
+			this.electionDates = res;
+
+			const s = new Date(res?.electionStartDate * 1000);
+			const ss = new Date(res?.electionEndDate * 1000);
+			const sa = s.toLocaleString("fr-FR");
+			const ssa = ss.toLocaleString("fr-FR");
+			this.electionDates.electionStartDate = sa.trim().split(/\s+/);
+			this.electionDates.electionEndDate = ssa.trim().split(/\s+/);
+
+			// this.electionDates.electionEndDate = ss.toLocaleString("fr-FR");
+		}
 	}
 }

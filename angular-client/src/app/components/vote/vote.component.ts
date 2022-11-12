@@ -99,16 +99,9 @@ export class VoteComponent implements OnInit {
 
 	async checkIfAlreadyVoted(userUID: any) {
 		const res = await this.http
-			.get<any>(`http://localhost:3001/api/my-vote/${11 || userUID}`)
+			.get<any>(`http://localhost:3001/api/my-vote/${6 || userUID}`)
 			.toPromise();
 		return (this.hasAlreadyVoted = res[0]);
-	}
-
-	async getCandidates() {
-		const res = await this.http
-			.get<any>(`http://localhost:3001/api/candidates`)
-			.toPromise();
-		return (this.candidates = res);
 	}
 
 	// castVote(userUID: any, voteCaster: any) {
@@ -117,7 +110,7 @@ export class VoteComponent implements OnInit {
 			.post<any>("http://localhost:3001/api/votes", {
 				candidateId: userUID,
 				// accountNumber: parseInt(voteCaster) || 10,
-				accountNumber: 1,
+				accountNumber: 6,
 			})
 			.toPromise()
 			.then((res) => {
@@ -136,6 +129,12 @@ export class VoteComponent implements OnInit {
 		// catchError(this.handleError('addHero', hero))
 	}
 
+	async getCandidates() {
+		const res = await this.http
+			.get<any>(`http://localhost:3001/api/candidates`)
+			.toPromise();
+		return (this.candidates = res);
+	}
 	getUserPic(min: any, max: any, gender: any) {
 		return `https://randomuser.me/api/portraits/${gender}/${this.randomIntFromInterval(
 			0,

@@ -8,6 +8,8 @@ import {
 	AngularFirestoreDocument,
 } from "@angular/fire/compat/firestore";
 import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
 	providedIn: "root",
@@ -16,6 +18,7 @@ export class AuthService {
 	userData: any; // Save logged in user data
 	votersData: any; // Save logged in user data
 	private dbPath = "/users";
+	isElectionEnded = false;
 
 	usersRef: AngularFirestoreCollection<User>;
 
@@ -23,7 +26,9 @@ export class AuthService {
 		public afs: AngularFirestore, // Inject Firestore service
 		public afAuth: AngularFireAuth, // Inject Firebase auth service
 		public router: Router,
-		public ngZone: NgZone // NgZone service to remove outside scope warning
+		public ngZone: NgZone, // NgZone service to remove outside scope warning
+		private http: HttpClient,
+		private toastr: ToastrService
 	) {
 		this.usersRef = afs.collection(this.dbPath);
 
@@ -39,6 +44,8 @@ export class AuthService {
 				JSON.parse(localStorage.getItem("user")!);
 			}
 		});
+
+		this.getElectionStatus();
 	}
 
 	getAllUsers(): AngularFirestoreCollection<User> {
@@ -162,5 +169,31 @@ export class AuthService {
 			localStorage.removeItem("user");
 			this.router.navigate(["sign-in"]);
 		});
+	}
+
+	async getElectionStatus() {
+		const res = await this.http
+			.get<any>(`http://localhost:3001/api/election/status`)
+			.toPromise();
+		if (!res) {
+			this.isElectionEnded = true;
+		} else this.isElectionEnded = false;
+	}
+	async endElection() {
+		const res = await this.http
+			.post<any>(`http://localhost:3001/api/election/end`, {})
+			.toPromise();
+		if (res) {
+			this.isElectionEnded = true;
+			this.toastr.success("", "انتهت الانتخابات بنجاح");
+		}
+	}
+	async startElection() {
+		const res = await this.http
+			.post<any>(`http://localhost:3001/api/election/activate`, {})
+			.toPromise();
+		if (res) {
+			this.isElectionEnded = false;
+		}
 	}
 }

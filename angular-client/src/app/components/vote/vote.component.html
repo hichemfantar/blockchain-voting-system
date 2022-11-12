@@ -7,11 +7,18 @@
 
 	<main class="col-span-10">
 		<div
+			*ngIf="authService.isElectionEnded"
+			class="p-4 mb-4 text-xl text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+		>
+			<span class="font-medium"> الانتخابات قد انتهت!</span> يمكنك التحقق من
+			النتيجة.
+		</div>
+
+		<div
 			*ngIf="hasAlreadyVoted"
 			class="p-4 mb-4 text-xl text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
 		>
-			<span class="font-medium"> شكرا لتصويتك!</span> يمكنك الذهاب إلى صفحة
-			الإحصائيات والاطلاع على آخر الأخبار.
+			<span class="font-medium"> شكرا لتصويتك!</span>
 		</div>
 
 		<!-- Total voters: {{ tutorials?.length }}
@@ -31,14 +38,17 @@
 				>
 					<div class="flex flex-col items-center p-10">
 						<img
-							class="mb-3 w-24 h-24 rounded-full shadow-lg"
+							class="mb-3 w-24 h-24 rounded-full shadow-lg object-cover"
 							src="{{
-								user.photoURL
-									? user.photoURL
-									: 'https://randomuser.me/api/portraits/men/10.jpg'
+								candidate.name === 'Hichem Fatar'
+									? 'https://avatars.githubusercontent.com/u/34947993?v=4'
+									: candidate.name === 'Karim Ben Khaled'
+									? 'https://i.imgur.com/6cIJxyw.jpg'
+									: candidate.name === 'Bassem Gouty'
+									? 'https://i.imgur.com/IZwIbyl.jpg'
+									: ''
 							}}"
-							alt="{{ candidate.displayName }}"
-							alt="Bonnie image"
+							alt="{{ candidate.name }}"
 						/>
 						<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
 							{{ candidate.name }}
@@ -64,7 +74,7 @@
 							</button>
 						</div>
 						<button
-							*ngIf="hasAlreadyVoted === false"
+							*ngIf="!authService.isElectionEnded && hasAlreadyVoted === false"
 							class="w-full mt-4 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
 							(click)="castVote(i)"
 							type="button"

@@ -5,5 +5,6 @@ export interface User {
 	photoURL: string;
 	emailVerified: boolean;
 	gender?: string;
+	handicapped?: string;
 	// accountNumber: number;
 }
