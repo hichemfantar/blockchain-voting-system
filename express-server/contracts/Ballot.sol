@@ -85,6 +85,10 @@ contract Ballot {
 		return proposals.length;
 	}
 
+	function removeCandidate() public {
+		proposals.pop();
+	}
+
 	function getMyVote() public view returns (Voter memory) {
 		return voters[msg.sender];
 	}

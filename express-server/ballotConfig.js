@@ -1,4 +1,4 @@
-const BALLOT_ADDRESS = "0x64672998A9577E2D2e92B5bdd1EeCD50a92AFe4F";
+const BALLOT_ADDRESS = "0x41269E6E889b927Cd7FBE79Bcd0c54b4009e3001";
 
 const BALLOT_ABI = [
 	{
@@ -128,6 +128,13 @@ const BALLOT_ABI = [
 				type: "uint256",
 			},
 		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "removeCandidate",
+		outputs: [],
 		stateMutability: "nonpayable",
 		type: "function",
 	},

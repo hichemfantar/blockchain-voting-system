@@ -160,6 +160,29 @@ app.post("/api/candidates", async (request, response) => {
 		return response.status(500).send("Something broke!");
 	}
 });
+
+app.delete("/api/candidates", async (request, response) => {
+	try {
+		const res = await ballotList.methods
+			.removeCandidate()
+			.send({ from: accounts[0] });
+		// .send({ from: accounts[candidate?.accountNumber] });
+
+		return response.json(res);
+	} catch (error) {
+		// console.log(error?.data?.reason);
+		// for (const [key, value] of Object.entries(error)) {
+		// 	console.log(`${key}: ${value}`);
+		// }
+		console.log(error);
+		return response.status(500).send("You can't add candidates right now");
+		return response.status(500).send(error?.data);
+
+		return response.json(error?.data);
+
+		return response.status(500).send("Something broke!");
+	}
+});
 app.post("/api/votes", async (request, response) => {
 	try {
 		const submittedVote = request.body;
