@@ -6,5 +6,5 @@ export interface User {
 	emailVerified: boolean;
 	gender?: string;
 	handicapped?: string;
-	// accountNumber: number;
+	accountNumber?: number;
 }

@@ -3,7 +3,7 @@
 		class="h-full overflow-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800"
 	>
 		<ul class="space-y-2">
-			<li>
+			<li *ngIf="authService.userData.email === 'mobyfreak123@gmail.com'">
 				<a
 					routerLinkActive="bg-gray-100 dark:bg-gray-700"
 					[routerLink]="['/create-candidate']"

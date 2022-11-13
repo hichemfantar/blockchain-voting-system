@@ -6,6 +6,13 @@
 	</div>
 
 	<main class="col-span-10">
+		<div
+			*ngIf="authService.isElectionEnded"
+			class="p-4 mb-4 text-xl text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+		>
+			<span class="font-medium"> الانتخابات قد انتهت!</span> يمكنك التحقق من
+			النتيجة.
+		</div>
 		<div>
 			<div
 				class="text-4xl pt-3 pb-6 mb-6 border-b text-gray-900 dark:text-white"
@@ -26,7 +33,7 @@
 						(click)="authService.startElection()"
 						type="button"
 					>
-						ابدأ الانتخابات
+						افتتاح الانتخابات
 					</button>
 				</div>
 			</div>
@@ -75,8 +82,8 @@
 						<img
 							class="mb-3 w-24 h-24 rounded-full shadow-lg object-cover"
 							src="{{
-								candidate.name === 'Hichem Fatar'
-									? 'https://avatars.githubusercontent.com/u/34947993?v=4'
+								candidate.name === 'Hichem Fantar'
+									? 'https://i.imgur.com/DcDCWRo.png'
 									: candidate.name === 'Karim Ben Khaled'
 									? 'https://i.imgur.com/6cIJxyw.jpg'
 									: candidate.name === 'Bassem Gouty'
@@ -98,11 +105,11 @@
                     class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >{{ candidate.voteCount }}</a
                   > -->
-							<a
-								href="#"
+							<button
 								class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
-								>{{ candidate.voteCount }}</a
 							>
+								{{ candidate.voteCount }}
+							</button>
 						</div>
 					</div>
 				</div>

@@ -57,7 +57,9 @@ export class VoteComponent implements OnInit {
 		this.getCandidates();
 		this.retrieveUsers();
 
-		this.checkIfAlreadyVoted(this.userD.accountNumber);
+		console.log(this.authService.userData.uid);
+
+		this.checkIfAlreadyVoted(this.authService.userData.uid);
 
 		this.authService.getVotersData().then((res) => console.log(res));
 		// console.log(this.userD);
@@ -99,18 +101,18 @@ export class VoteComponent implements OnInit {
 
 	async checkIfAlreadyVoted(userUID: any) {
 		const res = await this.http
-			.get<any>(`http://localhost:3001/api/my-vote/${6 || userUID}`)
+			.get<any>(`http://localhost:3001/api/my-vote/${userUID || 6}`)
 			.toPromise();
 		return (this.hasAlreadyVoted = res[0]);
 	}
 
 	// castVote(userUID: any, voteCaster: any) {
-	castVote(userUID: any) {
+	castVote(id: any, uid: any) {
 		return this.http
 			.post<any>("http://localhost:3001/api/votes", {
-				candidateId: userUID,
+				candidateId: id,
 				// accountNumber: parseInt(voteCaster) || 10,
-				accountNumber: 6,
+				accountNumber: uid,
 			})
 			.toPromise()
 			.then((res) => {

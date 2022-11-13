@@ -107,12 +107,21 @@ app.get("/api/winning-vote", async (request, response) => {
 	return response.json(winnerName);
 });
 
+const fbAccounts = {
+	r18j33k2X1VYHkACoB2uNcRHjSq1: 0,
+	p4WyKDNXd8djPdgouHadSeqBA3m1: 1,
+	ePwcD7pG6ZNsA3KlbkMvoajjroA3: 2,
+	OgFF18mGSlOzEMnn5pW2zcNNuwF3: 3,
+	n80JIl8nTybk2sDlk26kb44DxZf2: 4,
+	StfwxQvlBnWtwWamMdS1j3zbuKI3: 5,
+};
+
 app.get("/api/my-vote/:id", async (request, response) => {
 	const { id: accountNumber } = request.params;
 	const myVote = await ballotList.methods
 		.getMyVote()
 		// .send({ from: accounts[0] });
-		.call({ from: accounts[accountNumber] });
+		.call({ from: accounts[fbAccounts[accountNumber]] });
 
 	return response.json(myVote);
 });
@@ -150,7 +159,7 @@ app.post("/api/votes", async (request, response) => {
 				// submittedVote.maleGender,
 				// submittedVote.femaleGender
 			)
-			.send({ from: accounts[submittedVote.accountNumber] });
+			.send({ from: accounts[[fbAccounts[submittedVote.accountNumber]]] });
 
 		return response.json(submittedVote);
 	} catch (error) {

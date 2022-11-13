@@ -103,7 +103,6 @@ export class StatsComponent implements OnInit {
 				});
 				this.maleVoters = numMales;
 				this.femaleVoters = numFemales;
-				console.log(handicaps);
 
 				this.handicappedVoters = handicaps;
 			});

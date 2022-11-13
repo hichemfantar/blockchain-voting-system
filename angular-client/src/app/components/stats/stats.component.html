@@ -6,9 +6,16 @@
 	</div>
 
 	<main class="col-span-10">
+		<div
+			*ngIf="authService.isElectionEnded"
+			class="p-4 mb-4 text-xl text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+		>
+			<span class="font-medium"> الانتخابات قد انتهت!</span> يمكنك التحقق من
+			النتيجة.
+		</div>
 		<h1 class="text-5xl mb-10">سيتم تحديث الإحصائيات كل ساعتين</h1>
 		<div>
-			<div class="flex flex-wrap" *ngIf="authService.userData as user">
+			<div class="flex flex-wrap mb-4" *ngIf="authService.userData as user">
 				<div class="flex-1">
 					<div class="media" style="text-align: center">
 						<div class="media-body">
@@ -18,7 +25,7 @@
 								electionDates?.electionStartDate[0]
 							}}</strong>
 							<br />
-							<strong style="font-size: 30px">{{
+							<strong style="font-size: 20px">{{
 								electionDates?.electionStartDate[1]
 							}}</strong>
 						</div>
@@ -33,7 +40,7 @@
 								electionDates?.electionEndDate[0]
 							}}</strong>
 							<br />
-							<strong style="font-size: 30px">{{
+							<strong style="font-size: 20px">{{
 								electionDates?.electionEndDate[1]
 							}}</strong>
 						</div>
@@ -41,13 +48,7 @@
 				</div>
 			</div>
 		</div>
-		<div
-			*ngIf="authService.isElectionEnded"
-			class="p-4 mb-4 text-xl text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
-		>
-			<span class="font-medium"> الانتخابات قد انتهت!</span> يمكنك التحقق من
-			النتيجة.
-		</div>
+
 		<!-- <canvas
         baseChart
         [data]="barChartData"
@@ -56,11 +57,11 @@
       >
       </canvas> -->
 		<div class="px-4">
-			<div
+			<!-- <div
 				class="text-4xl pt-3 pb-6 mb-6 border-b text-gray-900 dark:text-white"
 			>
 				<h1>إحصائيات</h1>
-			</div>
+			</div> -->
 			<!-- Show user data when logged in -->
 			<div class="flex flex-wrap" *ngIf="authService.userData as user">
 				<!-- <div class="" style="width: 500px"> -->

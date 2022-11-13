@@ -10,6 +10,7 @@ import {
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
+import { map } from "rxjs";
 
 @Injectable({
 	providedIn: "root",
@@ -37,6 +38,7 @@ export class AuthService {
 		this.afAuth.authState.subscribe((user) => {
 			if (user) {
 				this.userData = user;
+
 				localStorage.setItem("user", JSON.stringify(this.userData));
 				JSON.parse(localStorage.getItem("user")!);
 			} else {
@@ -61,7 +63,7 @@ export class AuthService {
 
 				this.afAuth.authState.subscribe((user) => {
 					if (user) {
-						this.router.navigate(["dashboard"]);
+						this.router.navigate(["stats"]);
 					}
 				});
 			})
@@ -117,7 +119,7 @@ export class AuthService {
 	// Sign in with Google
 	GoogleAuth() {
 		return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-			this.router.navigate(["dashboard"]);
+			this.router.navigate(["stats"]);
 		});
 	}
 
@@ -126,7 +128,7 @@ export class AuthService {
 		return this.afAuth
 			.signInWithPopup(provider)
 			.then((result) => {
-				this.router.navigate(["dashboard"]);
+				this.router.navigate(["stats"]);
 
 				this.SetUserData(result.user);
 			})
@@ -150,6 +152,7 @@ export class AuthService {
 			emailVerified: user.emailVerified,
 			// accountNumber: user.accountNumber,
 		};
+
 		return userRef.set(userData, {
 			merge: true,
 		});
@@ -185,7 +188,7 @@ export class AuthService {
 			.toPromise();
 		if (res) {
 			this.isElectionEnded = true;
-			this.toastr.success("", "انتهت الانتخابات بنجاح");
+			this.toastr.success("", "أغلقت الانتخابات بنجاح");
 		}
 	}
 	async startElection() {
@@ -194,6 +197,7 @@ export class AuthService {
 			.toPromise();
 		if (res) {
 			this.isElectionEnded = false;
+			this.toastr.success("", "افتتحت الانتخابات بنجاح");
 		}
 	}
 }
