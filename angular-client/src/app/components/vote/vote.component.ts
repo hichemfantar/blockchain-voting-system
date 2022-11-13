@@ -13,6 +13,8 @@ import { User } from "src/app/shared/services/user";
 })
 export class VoteComponent implements OnInit {
 	hasAlreadyVoted: boolean | null = null;
+	timeout: any = null;
+	intervalID: any = null;
 
 	candidates: any[] = [
 		// {
@@ -53,13 +55,31 @@ export class VoteComponent implements OnInit {
 		// }, 1000);
 	}
 
+	ngOnDestroy() {
+		if (this.timeout) {
+			clearTimeout(this.timeout);
+		}
+		if (this.intervalID) {
+			clearInterval(this.intervalID);
+		}
+	}
+
 	ngOnInit(): void {
 		this.getCandidates();
 		this.retrieveUsers();
 
 		console.log(this.authService.userData.uid);
 
-		this.checkIfAlreadyVoted(this.authService.userData.uid);
+		this.timeout = setTimeout(() => {
+			this.intervalID = setInterval(() => {
+				this.checkIfAlreadyVoted(this.authService.userDataa.accountNumber);
+			}, 500);
+		}, 1000);
+		for (let index = 0; index < 20; index++) {
+			console.log(this.authService.userDataa);
+		}
+
+		// this.checkIfAlreadyVoted(this.authService.userData.uid);
 
 		this.authService.getVotersData().then((res) => console.log(res));
 		// console.log(this.userD);
@@ -101,7 +121,7 @@ export class VoteComponent implements OnInit {
 
 	async checkIfAlreadyVoted(userUID: any) {
 		const res = await this.http
-			.get<any>(`http://localhost:3001/api/my-vote/${userUID || 6}`)
+			.get<any>(`http://localhost:3001/api/my-vote/${userUID}`)
 			.toPromise();
 		return (this.hasAlreadyVoted = res[0]);
 	}

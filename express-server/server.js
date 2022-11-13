@@ -1,4 +1,5 @@
 // TODO connect frontend,
+let electionEndtime = 0;
 
 const express = require("express");
 const app = express();
@@ -55,31 +56,33 @@ connectWeb3();
 // routes(app, accounts, contactList);
 
 app.get("/api/candidates", async (request, response) => {
-	// candidates = [
-	// 	{
-	// 		name: "foo",
-	// 		numberOfVotes: 0,
-	// 	},
-	// 	{
-	// 		name: "bar",
-	// 		numberOfVotes: 2,
-	// 	},
-	// ];
+	try {
+		// candidates = [
+		// 	{
+		// 		name: "foo",
+		// 		numberOfVotes: 0,
+		// 	},
+		// 	{
+		// 		name: "bar",
+		// 		numberOfVotes: 2,
+		// 	},
+		// ];
 
-	numCandidates = await ballotList.methods.getNumOfCandidates().call();
+		numCandidates = await ballotList.methods.getNumOfCandidates().call();
 
-	const candidates = [];
+		const candidates = [];
 
-	for (let index = 0; index < numCandidates; index++) {
-		const candidate = await ballotList.methods.getCandidate(index).call();
-		candidates.push({
-			...candidate,
-			name: hex_to_ascii(candidate["0"]),
-			// name: candidate["0"],
-			nameHex: candidate["0"],
-			voteCount: candidate["1"],
-		});
-	}
+		for (let index = 0; index < numCandidates; index++) {
+			const candidate = await ballotList.methods.getCandidate(index).call();
+			candidates.push({
+				...candidate,
+				name: hex_to_ascii(candidate["0"]),
+				// name: candidate["0"],
+				nameHex: candidate["0"],
+				voteCount: candidate["1"],
+			});
+		}
+	} catch (error) {}
 
 	return response.json(candidates);
 });
@@ -100,11 +103,13 @@ app.get("/api/candidates/:id", async (request, response) => {
 });
 
 app.get("/api/winning-vote", async (request, response) => {
-	const winnerName = await ballotList.methods
-		.winnerName()
-		// .send({ from: accounts[0] });
-		.call();
-	return response.json(winnerName);
+	try {
+		const winnerName = await ballotList.methods
+			.winnerName()
+			// .send({ from: accounts[0] });
+			.call();
+		return response.json(winnerName);
+	} catch (error) {}
 });
 
 const fbAccounts = {
@@ -118,13 +123,17 @@ const fbAccounts = {
 };
 
 app.get("/api/my-vote/:id", async (request, response) => {
-	const { id: accountNumber } = request.params;
-	const myVote = await ballotList.methods
-		.getMyVote()
-		// .send({ from: accounts[0] });
-		.call({ from: accounts[fbAccounts[accountNumber]] });
+	try {
+		const { id: accountNumber } = request.params;
+		console.log(parseInt(accountNumber));
+		const myVote = await ballotList.methods
+			.getMyVote()
+			// .send({ from: accounts[0] });
+			.call({ from: accounts[parseInt(accountNumber)] });
+		// .call({ from: accounts[fbAccounts[accountNumber]] });
 
-	return response.json(myVote);
+		return response.json(myVote);
+	} catch (error) {}
 });
 
 app.post("/api/candidates", async (request, response) => {
@@ -160,7 +169,8 @@ app.post("/api/votes", async (request, response) => {
 				// submittedVote.maleGender,
 				// submittedVote.femaleGender
 			)
-			.send({ from: accounts[[fbAccounts[submittedVote.accountNumber]]] });
+			.send({ from: accounts[submittedVote.accountNumber] });
+		// .send({ from: accounts[[fbAccounts[submittedVote.accountNumber]]] });
 
 		return response.json(submittedVote);
 	} catch (error) {
@@ -193,9 +203,11 @@ app.get("/api/election/status", async (request, response) => {
 		return response.status(500).send("Something broke!");
 	}
 });
+
 app.post("/api/election/end", async (request, response) => {
 	try {
 		await ballotList.methods.endElection().send({ from: accounts[0] });
+		electionEndtime = Date.now();
 
 		return response.json(true);
 	} catch (error) {
@@ -212,6 +224,7 @@ app.post("/api/election/end", async (request, response) => {
 app.post("/api/election/activate", async (request, response) => {
 	try {
 		await ballotList.methods.activateElection().send({ from: accounts[0] });
+		electionEndtime = 0;
 
 		return response.json(true);
 	} catch (error) {
@@ -250,7 +263,7 @@ app.get("/api/election/dates", async (request, response) => {
 		dates.electionStartDate = electionStartDate;
 		dates.electionEndDate = electionEndDate;
 
-		return response.json(dates);
+		return response.json({ ...dates, electionEndtime });
 	} catch (error) {
 		console.log(error);
 		return response.status(500).send(error?.data);

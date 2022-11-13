@@ -58,6 +58,7 @@ contract Ballot {
 
 	function endElection() public {
 		isElectionActive = false;
+		// electionEndDate = block.timestamp;
 	}
 
 	function activateElection() public {

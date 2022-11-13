@@ -17,6 +17,7 @@ import { map } from "rxjs";
 })
 export class AuthService {
 	userData: any; // Save logged in user data
+	userDataa: any; // Save logged in user data
 	votersData: any; // Save logged in user data
 	private dbPath = "/users";
 	isElectionEnded = false;
@@ -39,11 +40,29 @@ export class AuthService {
 			if (user) {
 				this.userData = user;
 
+				this.getOneUser(user.uid).then((value: any) => {
+					console.log("from component-", value);
+
+					if (value.uid) {
+						this.userDataa = value;
+						localStorage.setItem("userr", JSON.stringify(this.userDataa));
+						JSON.parse(localStorage.getItem("userr")!);
+					} else {
+						localStorage.setItem("userr", "null");
+
+						JSON.parse(localStorage.getItem("userr")!);
+					}
+				});
+
 				localStorage.setItem("user", JSON.stringify(this.userData));
+				// localStorage.setItem("userr", JSON.stringify(this.userDataa));
 				JSON.parse(localStorage.getItem("user")!);
+				// JSON.parse(localStorage.getItem("userr")!);
 			} else {
 				localStorage.setItem("user", "null");
+				// localStorage.setItem("userr", "null");
 				JSON.parse(localStorage.getItem("user")!);
+				// JSON.parse(localStorage.getItem("userr")!);
 			}
 		});
 
@@ -60,6 +79,13 @@ export class AuthService {
 			.signInWithEmailAndPassword(email, password)
 			.then((result) => {
 				this.SetUserData(result.user);
+
+				if (result.user) {
+					this.getOneUser(result.user.uid).then((value: any) => {
+						console.log("from component-", value);
+						this.userDataa = value;
+					});
+				}
 
 				this.afAuth.authState.subscribe((user) => {
 					if (user) {
@@ -170,6 +196,7 @@ export class AuthService {
 	SignOut() {
 		return this.afAuth.signOut().then(() => {
 			localStorage.removeItem("user");
+			localStorage.removeItem("userr");
 			this.router.navigate(["sign-in"]);
 		});
 	}
@@ -199,5 +226,23 @@ export class AuthService {
 			this.isElectionEnded = false;
 			this.toastr.success("", "افتتحت الانتخابات بنجاح");
 		}
+	}
+
+	getOneUser(id: string): any {
+		return this.afs
+			.collection<User>("users")
+			.doc(id)
+			.ref.get()
+			.then((doc) => {
+				if (doc.exists) {
+					console.log(doc.data());
+					return doc.data();
+				} else {
+					return "Doc does not exits";
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	}
 }

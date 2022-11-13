@@ -140,6 +140,12 @@ export class StatsComponent implements OnInit {
 			this.electionDates.electionStartDate = sa.trim().split(/\s+/);
 			this.electionDates.electionEndDate = ssa.trim().split(/\s+/);
 
+			if (res.electionEndtime) {
+				const sss = new Date(res?.electionEndtime);
+				const sssa = sss.toLocaleString("fr-FR");
+				this.electionDates.electionEndDate = sssa.trim().split(/\s+/);
+			}
+
 			// this.electionDates.electionEndDate = ss.toLocaleString("fr-FR");
 		}
 	}
