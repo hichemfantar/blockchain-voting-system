@@ -82,9 +82,10 @@ app.get("/api/candidates", async (request, response) => {
 				voteCount: candidate["1"],
 			});
 		}
-	} catch (error) {}
-
-	return response.json(candidates);
+		return response.json(candidates);
+	} catch (error) {
+		return response.status(500).send(error?.data);
+	}
 });
 
 app.get("/api/candidates/:id", async (request, response) => {
